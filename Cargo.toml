@@ -3,6 +3,10 @@ name = "rca"
 version = "0.1.0"
 edition = "2021"
 authors = ["Sofiane Akermoun <s.akermoun@hacken.io>"]
+license = "Unlicense OR MIT"
+documentation = "https://github.com/hknio/rca"
+homepage = "https://github.com/hknio/rca"
+repository = "https://github.com/hknio/rca"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
