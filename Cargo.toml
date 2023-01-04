@@ -3,6 +3,11 @@ name = "rca"
 version = "0.1.0"
 edition = "2021"
 authors = ["Sofiane Akermoun <s.akermoun@hacken.io>"]
+description = """
+rca is a Rust Code Analyzer tool that searches for security and code quality issues
+in cargo and Rust projects.
+"""
+keywords = ["security", "quality", "vulnerability", "audit", "code", "testing"]
 license = "Unlicense OR MIT"
 documentation = "https://github.com/hknio/rca"
 homepage = "https://github.com/hknio/rca"
