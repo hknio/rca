@@ -15,4 +15,13 @@ repository = "https://github.com/hknio/rca"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]]
+name = "rca"
+path = "src/rca/bin/main.rs"
+
+[[bin]]
+name = "cargo-rca"
+path = "src/cargo-rca/bin/main.rs"
+
 [dependencies]
+url = "2.3.1"
