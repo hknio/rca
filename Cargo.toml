@@ -24,4 +24,6 @@ name = "cargo-rca"
 path = "src/cargo-rca/bin/main.rs"
 
 [dependencies]
-url = "2.3.1"
+regex = "1.7.0"
+thiserror = "1.0.38"
+which = "4.3.0"
