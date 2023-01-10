@@ -16,7 +16,7 @@ pub enum TargetPath {
 
 impl TargetPath {
     pub fn new(target_path: String) -> Result<TargetPath, TargetPathError> {
-        // This should never failled, else a crash is expected.
+        // Must not fail, or a crash is expected.
         let re =
             Regex::new(r"((git|ssh|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@:/\-~]+)(\.git)(/)?")
                 .expect("Fatal error: Can not create regular expression");
