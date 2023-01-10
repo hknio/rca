@@ -13,8 +13,9 @@ pub const CARGO_SUBCOMMAND_LIST: &[&str] = &[
     "cargo-tree",
     "cargo-modules",
     "cargo-nextest",
+    "tokei",
 ];
-pub const SYSTEM_BINARY_LIST: &[&str] = &["az", "git"];
+pub const SYSTEM_BINARY_LIST: &[&str] = &["git"];
 
 #[derive(Debug, Error)]
 pub enum DepError {
