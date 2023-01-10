@@ -13,7 +13,7 @@ pub const CARGO_SUBCOMMAND_LIST: &[&str] = &[
     "cargo-tree",
     "cargo-modules",
     "cargo-nextest",
-    "tokei",
+    "tokei", // it is not a subcommand but it installed with cargo
 ];
 pub const SYSTEM_BINARY_LIST: &[&str] = &["git"];
 
