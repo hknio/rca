@@ -1,19 +1,25 @@
+/*
 use std::io;
 use std::path::PathBuf;
 use std::process::{self, Command};
 
-#[derive(Debug, Clone, Copy)]
-pub enum Type {
-    Rustup,
-    Cargo,
-    System,
+struct Cmd {
+    cmd_line: String,
+}
+
+impl Cmd {
+    pub fn new(s: String) -> Self {
+        let kind if s.starts_with("cargo")
+    }
+    pub fn execute(&self) {}
 }
 
 pub trait Cmd {
-    fn bin(&self) -> &str;
-    //fn target(&self) -> &Path;
+    fn name(&self) -> &str;
     fn cmd_type(&self) -> Type;
-    fn cmd_line(&self) -> &str;
+    fn cmd_line(&self) -> String {
+        format!("{} {} {}"self.cmd_type().prefix())
+    }
     //fn install(&self) -> bool;
     //fn output(&self) -> String;
 
@@ -68,3 +74,4 @@ impl Cmd for CargoCmd {
 
 // TODO: struct or trait need to choose
 pub struct BinCmd {}
+*/

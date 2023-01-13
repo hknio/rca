@@ -13,19 +13,26 @@ pub const CARGO_SUBCOMMAND_LIST: &[&str] = &[
     "cargo-tree",
     "cargo-modules",
     "cargo-nextest",
-    "tokei", // it is not a subcommand but it installed with cargo
+    "tokei", // it is not a subcommand but it is installed with cargo
 ];
 pub const SYSTEM_BINARY_LIST: &[&str] = &["git"];
+
+#[derive(Debug, Clone, Copy)]
+pub enum Kind {
+    Rustup,
+    Cargo,
+    System,
+}
 
 #[derive(Debug, Error)]
 pub enum DepError {
     #[error("Update error")]
     UpdateFailed,
-    #[error("Rustup component {:?} installation failed", .0)]
+    #[error("Rustup components {:?} installation failed", .0)]
     ComponentsInstallFailed(Vec<String>),
-    #[error("Cargo subcommand {:?} installation failed", .0)]
+    #[error("Cargo subcommands {:?} installation failed", .0)]
     SubcommandsInstallFailed(Vec<String>),
-    #[error("Binary {:?} is not installed or not in PATH", .0)]
+    #[error("Binaries {:?} are not installed or not in $PATH", .0)]
     SystemBinariesNotInstalled(Vec<String>),
 }
 

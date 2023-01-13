@@ -45,6 +45,12 @@ impl TargetPath {
     }
 }
 
+pub struct Target {
+    pub path: PathBuf,
+}
+
+impl Target {}
+
 #[cfg(test)]
 mod tests {
     use super::*;
