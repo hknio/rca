@@ -105,17 +105,17 @@ fn install_cargo_subcommands() -> Result<(), DepError> {
 }
 
 fn check_system_binaries() -> Result<(), DepError> {
-    let mut uninstall = Vec::new();
+    let mut not_installed = Vec::new();
     for binary in SYSTEM_BINARY_LIST {
         if !is_installed(binary) {
-            uninstall.push(binary.to_string());
+            not_installed.push(binary.to_string());
         }
     }
 
-    if uninstall.is_empty() {
+    if not_installed.is_empty() {
         Ok(())
     } else {
-        Err(DepError::SystemBinariesNotInstalled(uninstall))
+        Err(DepError::SystemBinariesNotInstalled(not_installed))
     }
 }
 

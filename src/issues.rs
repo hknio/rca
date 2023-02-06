@@ -1,4 +1,5 @@
 use ansi_term::Colour::Green;
+use std::ffi::OsStr;
 use std::io::{self, Write};
 use std::process::Command;
 
@@ -10,9 +11,11 @@ pub enum IssueKind {
     VulnerableDependency,
     IntegerArithmetic,
     UnboundedDataStructure, // free writing in memory
+    OutOfBound,
+    ErrorHandling,
 }
 
-pub fn search(path: &str) {
+pub fn search(path: &OsStr) {
     //_ = env::set_current_dir(path);
     println!(
         "{}",
@@ -36,14 +39,17 @@ pub fn search(path: &str) {
     println!("{}", Green.bold().paint("# Integer arithmetics"));
     find_integer_arithmetics(path);
     println!("\n");
+
+    println!("{}", Green.bold().paint("# Error handling and unwrapping"));
+    find_unwrap_expect(path);
+    println!("\n");
     /*
-    println!("# Result/Option handlings and crashes");
     println!("# Unbounded datastructures");
     find_unbounded_datastructures(path);
     */
 }
 
-fn find_compilation_errors(path: &str) {
+fn find_compilation_errors(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .args(["check"])
@@ -53,7 +59,7 @@ fn find_compilation_errors(path: &str) {
     io::stderr().write_all(&output.stderr).unwrap();
 }
 
-fn find_formatting_issues(path: &str) {
+fn find_formatting_issues(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .arg("fmt")
@@ -64,7 +70,7 @@ fn find_formatting_issues(path: &str) {
     io::stderr().write_all(&output.stderr).unwrap();
 }
 
-fn find_outdated_dependencies(path: &str) {
+fn find_outdated_dependencies(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .arg("outdated")
@@ -74,7 +80,7 @@ fn find_outdated_dependencies(path: &str) {
     io::stderr().write_all(&output.stderr).unwrap();
 }
 
-fn find_vulnerable_dependencies(path: &str) {
+fn find_vulnerable_dependencies(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .arg("audit")
@@ -84,7 +90,7 @@ fn find_vulnerable_dependencies(path: &str) {
     io::stderr().write_all(&output.stderr).unwrap();
 }
 
-fn find_integer_arithmetics(path: &str) {
+fn find_integer_arithmetics(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .args([
@@ -94,6 +100,28 @@ fn find_integer_arithmetics(path: &str) {
             "clippy::all",
             "-D",
             "clippy::integer_arithmetic",
+            "-D",
+            "clippy::arithmetic_side_effects",
+        ])
+        .output()
+        .expect("failed to execute process");
+    println!("status: {}", output.status);
+    io::stdout().write_all(&output.stdout).unwrap();
+    io::stderr().write_all(&output.stderr).unwrap();
+}
+
+fn find_unwrap_expect(path: &OsStr) {
+    let output = Command::new("cargo")
+        .current_dir(path)
+        .args([
+            "clippy",
+            "--",
+            "-A",
+            "clippy::all",
+            "-D",
+            "clippy::unwrap_used",
+            "-D",
+            "clippy::expect_used",
         ])
         .output()
         .expect("failed to execute process");

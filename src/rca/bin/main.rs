@@ -1,8 +1,10 @@
+use rca::download;
+use rca::download::git_download;
 use rca::issues;
 use rca::quality;
+use rca::target::TargetPath;
 use std::env;
 use std::error::Error;
-//use std::process;
 
 fn main() -> Result<(), Box<dyn Error>> {
     /*
@@ -14,10 +16,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     */
 
-    let path = env::args().skip(1).take(1).collect::<String>();
-    println!("Target: {}", path);
+    let target = env::args().skip(1).take(1).collect::<String>();
+    let path = download::git_download(&target);
+    println!("Target: {}", path.display());
 
-    quality::search(&path);
-    issues::search(&path);
+    quality::fast_search(path.as_os_str());
+    issues::search(path.as_os_str());
     Ok(())
 }

@@ -1,8 +1,9 @@
 use ansi_term::Colour::Green;
+use std::ffi::OsStr;
 use std::io::{self, Write};
 use std::process::Command;
 
-pub fn search(path: &str) {
+pub fn search(path: &OsStr) {
     println!("{}", Green.bold().paint("# Number of SLOC:"));
     search_nb_sloc(path);
     println!("\n");
@@ -14,7 +15,16 @@ pub fn search(path: &str) {
     println!("\n");
 }
 
-fn search_nb_sloc(path: &str) {
+pub fn fast_search(path: &OsStr) {
+    println!("{}", Green.bold().paint("# Number of SLOC:"));
+    search_nb_sloc(path);
+    println!("\n");
+    println!("{}", Green.bold().paint("# Dependency graph:"));
+    search_dependency_graph(path);
+    println!("\n");
+}
+
+fn search_nb_sloc(path: &OsStr) {
     let output = Command::new("tokei")
         //.current_dir(path)
         .args([path])
@@ -24,7 +34,7 @@ fn search_nb_sloc(path: &str) {
     io::stderr().write_all(&output.stderr).unwrap();
 }
 
-fn search_dependency_graph(path: &str) {
+fn search_dependency_graph(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .args(["tree"])
@@ -34,7 +44,7 @@ fn search_dependency_graph(path: &str) {
     io::stderr().write_all(&output.stderr).unwrap();
 }
 
-fn search_code_coverage(path: &str) {
+fn search_code_coverage(path: &OsStr) {
     let output = Command::new("cargo")
         .current_dir(path)
         .args(["tarpaulin"])
