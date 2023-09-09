@@ -1,5 +1,7 @@
 use crate::command::execute_command_no_path;
 use ansi_term::Colour::{Green, Red, Yellow};
+use thiserror::Error;
+use which::which;
 
 /// List of Rustup components to install.
 pub const RUSTUP_COMPONENT_LIST: &[&str] = &["cargo-clippy", "rustfmt"];
@@ -16,6 +18,8 @@ pub const CARGO_SUBCOMMAND_LIST: &[&str] = &[
     "cargo-install-update",
     "cargo-expand",
     "cargo-modules",
+    "cargo-tree",
+    "cargo-geiger",
     // "cargo-nextest",
     "tokei",
 ];
@@ -32,7 +36,7 @@ pub enum Kind {
 }
 
 /// Represents errors related to dependency management.
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, Error)]
 pub enum DependencyError {
     /// Error updating Rustup and Cargo.
     #[error("Update Error")]
@@ -156,7 +160,7 @@ pub fn update_and_install_dependencies() -> Result<(), Vec<DependencyError>> {
 ///
 /// `true` if the binary is installed and in PATH, `false` otherwise.
 fn is_installed(name: &str) -> bool {
-    which::which(name).is_ok()
+    which(name).is_ok()
 }
 
 /// Updates Rustup and Cargo.

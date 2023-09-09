@@ -1,4 +1,5 @@
 /// Provides functionality for executing shell commands.
+pub mod cmd;
 pub mod command;
 
 /// Manages Rust toolchain dependencies and system binaries.

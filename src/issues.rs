@@ -13,6 +13,7 @@ pub enum IssueKind {
     CompilationError,
     OutdatedDependency,
     VulnerableDependency,
+    IntegerArithmetic,
     UnboundedDataStructure,
     OutOfBound,
     ErrorHandling,

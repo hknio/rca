@@ -102,3 +102,45 @@ pub struct Target {
 impl Target {
     // Additional methods and functionality can be added here.
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn should_parse_ssh_remote_repo_path() {
+        let url = "git@github.com:hknio/rca.git";
+        let target = TargetPath::new(url.to_string()).unwrap();
+        assert_eq!(target, TargetPath::RemoteRepository(url.to_string()));
+    }
+
+    #[test]
+    fn should_parse_https_remote_repo_path() {
+        let url = "https://github.com/hknio/rca.git";
+        let target = TargetPath::new(url.to_string()).unwrap();
+        assert_eq!(target, TargetPath::RemoteRepository(url.to_string()));
+    }
+
+    #[test]
+    fn should_parse_http_remote_repo_path() {
+        let url = "http://github.com/hknio/rca.git";
+        let target = TargetPath::new(url.to_string()).unwrap();
+        assert_eq!(target, TargetPath::RemoteRepository(url.to_string()));
+    }
+
+    #[test]
+    fn should_parse_local_repo_path() {
+        let path = "./";
+        let target = TargetPath::new(path.to_string()).unwrap();
+        assert_eq!(target, TargetPath::Path(PathBuf::from(path)));
+    }
+
+    #[test]
+    fn should_error_if_local_path_does_not_exist() {
+        let path = "/path/does/not/exist";
+        assert_eq!(
+            TargetPath::new(path.to_string()),
+            Err(TargetPathError::LocalPathDoesNotExist(path.to_string()))
+        );
+    }
+}
